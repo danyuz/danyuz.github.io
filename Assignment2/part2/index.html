@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select CSV</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <style>
+        body {
+            background-color: rgb(226, 157, 200);
+            font-family: fantasy;
+            text-align: center;
+        }
+
+        #title {
+            color: rgb(207, 68, 138);
+            ;
+        }
+
+        #dataTable {
+            margin-left: auto;
+            margin-right: auto;
+            font-family: monospace;
+            font-size: large;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1 id="title">Select and show different CSVs</h1>
+    <select id="selectcsv" onchange="loadData()">
+        <option value="data1.csv">data1.csv</option>
+        <option value="data2.csv">data2.csv</option>
+    </select>
+    <br><br>
+
+    <table id="dataTable"></table>
+
+</body>
+<script>
+    table = d3.select("#dataTable");
+    thead = table.append("thead");
+    tbody = table.append("tbody");
+
+    columns = null;
+
+    function formatHeader(c) {
+        columns = c;
+        thead.append("tr")
+            .selectAll("th").data(c).enter()
+            .append("th").text(d => d)
+    }
+
+    function loadData() {
+        doc = "./" + d3.select("#selectcsv").property("value")
+        console.log(doc)
+        d3.csv(doc)
+            .then(async (data) => {
+                thead.selectAll("th").remove();
+                formatHeader(data.columns);
+                updateTable(data);
+            })
+        d3.selectAll("#dataTable").style("text-align", "center")
+    }
+    loadData()
+
+    function updateTable(data) {
+        tbody.text("")
+        trSelection = tbody.selectAll('tr').data(data)
+        trSelection.enter()
+            .append("tr")
+            .selectAll("td")
+            .data(d => columns.map(c => d[c]))
+            .enter()
+            .append("td").text(x => x)
+    }
+
+</script>
+
+</html>

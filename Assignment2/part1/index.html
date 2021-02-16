@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add things</title>
+<style>
+    body {
+            background-color: rgb(226, 157, 200);
+            font-family: fantasy;
+            text-align: center;
+        }
+    #title {
+        color: rgb(207, 68, 138);;
+           }
+    #red{
+        color: red;
+    }
+    #blue {
+        color: blue; 
+        margin-left: 15px;
+    }
+    button {
+        font-size: medium;
+    }
+
+</style>
+
+</head>
+<body>
+    <h1 id="title">Try to add Some Text below</h1>
+    <input type="text" id="things">
+    <p></p>
+    <button id="add" onclick="add()">add</button>
+    <p></p>
+    <button id="red" onclick="red()">red</button>
+    <button id="blue" onclick="blue()">blue</button>
+</body>
+
+<script>
+    color = null
+    function add() {
+        var1 = d3.select("#things").property("value")
+        d3.select("body").append("p").text(var1)
+        if (color == "red") {
+            d3.selectAll("p").style("color","red")
+        } else if (color == "blue") {
+            d3.selectAll("p").style("color","blue")}
+    }
+    function red() {
+        d3.selectAll("p").style("color", "red")
+        color = "red"
+    }
+    function blue() {
+        d3.selectAll("p").style("color", "blue")
+        color = "blue"
+    }
+</script>
+</html>
